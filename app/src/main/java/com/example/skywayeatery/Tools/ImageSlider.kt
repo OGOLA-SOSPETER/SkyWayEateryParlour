@@ -31,7 +31,7 @@ fun Slider(navController: NavHostController){
         when(page)  {
 
             0 -> {
-                slideImage.value = R.drawable.grapes
+                slideImage.value = R.drawable.grapes1
             }
 
             1 -> {
