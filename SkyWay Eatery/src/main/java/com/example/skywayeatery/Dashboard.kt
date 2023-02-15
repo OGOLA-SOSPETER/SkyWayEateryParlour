@@ -1,10 +1,10 @@
 package  com.SosDeveloper.animalapp
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.animation.core.SnapSpec
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -32,6 +34,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -39,60 +42,73 @@ fun Dashboard(navController: NavHostController) {
     var scaffoldState = rememberScaffoldState(drawerState = rememberDrawerState(DrawerValue.Open))
     var expanded by remember { mutableStateOf(false) }
 
+
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = DefaultTintColor, elevation = 4.dp) {
-                        IconButton(onClick = { expanded = true }) {
-                            Icon(Icons.Default.List, contentDescription = "Menu")
-                        }
-                Card(elevation = 6.dp, modifier = Modifier.width(200.dp).height(500.dp)) {
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        // add menu items here
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Fresh Fruits"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Blended Fruits"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Cupcakes"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Buns"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Soft Drinks"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Fries"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Choma"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Pizza"), onClick = {})
-                        }
-                        DropdownMenuItem(onClick = { /*TODO*/ }) {
-                            ClickableText(text = AnnotatedString("Snacks"), onClick = {})
-                        }
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Default.List, contentDescription = "Menu")
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    //Card(elevation = 6.dp, modifier = Modifier.width(200.dp).height(500.dp)) {
 
+                    // add menu items here
+                    DropdownMenuItem(onClick = { navController.navigate("slider") }) {
+                        ClickableText(text = AnnotatedString("Fresh Fruits"), onClick = {})
                     }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Blended Fruits"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Cupcakes"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Buns"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Soft Drinks"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Fries"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Choma"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Pizza"), onClick = {})
+                    }
+                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                        ClickableText(text = AnnotatedString("Snacks"), onClick = {})
+                    }
+
+                    //}
                 }
-                }
+
                 Text(text = "\t\tSkyWay Eatery")
-Spacer(modifier = Modifier.width(40.dp))
+                Spacer(modifier = Modifier.width(40.dp))
                 IconButton(onClick = { navController.navigate("payment") }) {
-                    Image(painter = painterResource(id = R.drawable.payment),
-                        contentDescription = "Payments")
+                    Image(
+                        painter = painterResource(id = R.drawable.payment),
+                        contentDescription = "Payments"
+                    )
                 }
+                Spacer(modifier = Modifier.width(40.dp))
+                IconButton(onClick = { navController.navigate("settings") }) {
+                     Icon(Icons.Filled.Settings, contentDescription = "settings")
+                    }
+            }
         },
+
         content = {
             Column {
                 DashPage(navController = rememberNavController())
+                DisplayImages(navController = rememberNavController())
+                //ModalBottomSheetExample(navController = rememberNavController())
             }
         },
         floatingActionButton = {
@@ -125,14 +141,16 @@ Spacer(modifier = Modifier.width(40.dp))
 
 @Composable
 fun DashPage(navController: NavHostController) {
-    Column {
+
         val idList = mutableListOf(
             "Beverages",
             "Fast Foods",
             "Soft Drinks",
             "Fries",
             "Fresh Juices",
-            "Take Aways"
+            "Take Aways",
+            "Choma"
+
         )
         val listModifier = Modifier
             .fillMaxSize()
@@ -142,8 +160,8 @@ fun DashPage(navController: NavHostController) {
             modifier = listModifier,
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             content = {
-                items(6) { index: Int ->
-                    OutlinedButton(modifier = Modifier.width(150.dp), onClick = { /*TODO*/ }) {
+                items(7) { index: Int ->
+                    OutlinedButton(modifier = Modifier.width(120.dp), onClick = { /*TODO*/ }) {
                         Text(text = idList[index])
                     }
 
@@ -151,9 +169,8 @@ fun DashPage(navController: NavHostController) {
 
             })
 
-            DisplayImages(navController = rememberNavController())
     }
-}
+
 
 
 @Composable
@@ -189,15 +206,22 @@ fun PreviewDashboard() {
 
 
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun DisplayImages(navController: NavHostController){
     val images = listOf(
         R.drawable.burgers_remov,
         R.drawable.cupcakes,
         R.drawable.frrut,
-        R.drawable.grapes1,
+        R.drawable.strawberry,
         R.drawable.orange
+    )
+    val colored = listOf(
+        Color.LightGray,
+        Color.Cyan,
+        Color.Cyan,
+        Color.Unspecified,
+        Color.Green
     )
 
 
@@ -218,30 +242,93 @@ fun DisplayImages(navController: NavHostController){
     ) { page ->
         AnimatedVisibility(
             visible = true,
-            enter = fadeIn(),
+            enter = slideInHorizontally( ),
             exit = fadeOut()
         ) {
             Card(elevation = 4.dp, modifier = Modifier
-                .fillMaxWidth(0.9f)
+                .fillMaxWidth()
+                .padding(start = 10.dp, end = 10.dp)
                 .animateEnterExit(
                     // Slide in/out the inner box.
                     enter = slideInHorizontally(animationSpec = SnapSpec(2000)),
                     exit = slideOutHorizontally(animationSpec = SnapSpec(2000))
                 )
-                .background(Color.Red)
                 , content = {
                     Image(
                         painter = painterResource(id = images[page]),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.FillBounds,
+                        alignment = Alignment.Center,
                         contentDescription = null,
                         modifier = Modifier.size(width = 200.dp, height = 200.dp),
-                        colorFilter = ColorFilter.tint(
-                            Color.Green, blendMode = BlendMode.DstOver,
-
-                            )
+                        colorFilter = ColorFilter.tint(color = colored[page], blendMode = BlendMode.DstOver)
                     )
                 }
             )
         }
+    }
+}
+
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ModalBottomSheetExample(navController: NavHostController) {
+    val sheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded }
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BackHandler(sheetState.isVisible) {
+        coroutineScope.launch { sheetState.hide() }
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContent = { BottomSheet() },
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 24.dp)
+                .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Welcome to bottom sheet playground!",
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.h4,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        if (sheetState.isVisible) sheetState.hide()
+                        else sheetState.show()
+                    }
+                }
+            ) {
+                Text(text = "Click to show bottom sheet")
+            }
+        }
+    }
+}
+
+@Composable
+fun BottomSheet() {
+    Column(
+        modifier = Modifier.padding(32.dp)
+    ) {
+        Text(
+            text = "Bottom sheet",
+            style = MaterialTheme.typography.h6
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            text = "Click outside the bottom sheet to hide it",
+            style = MaterialTheme.typography.body1
+        )
     }
 }
