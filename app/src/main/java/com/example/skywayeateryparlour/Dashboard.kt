@@ -5,8 +5,6 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -14,13 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Red
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -31,12 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.skywayeatery.R
+import breaklist
 import com.example.skywayeateryparlour.Foods.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import freshList
 import kotlinx.coroutines.delay
+import lunchlist
 import kotlin.*
 
 
@@ -68,6 +62,11 @@ fun Dashboard(navController: NavHostController) {
                         content = {
                             Text(text = "Fresh Fruits")
                         })
+                    DropdownMenuItem(
+                        onClick = { navController.navigate("beverages") },
+                        content = {
+                            Text(text = "Beverages")
+                        })
                     DropdownMenuItem(onClick = { navController.navigate("soft_drink") }, content = {
                         Text(text = "Soft Drinks")
                     })
@@ -85,7 +84,7 @@ fun Dashboard(navController: NavHostController) {
                 }
 
                 Text(text = "\t\tSkyWay Eatery")
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(22.dp))
                 IconButton(onClick = { navController.navigate("payment") }) {
                     Image(
                         painter = painterResource(id = R.drawable.payment),
@@ -93,7 +92,7 @@ fun Dashboard(navController: NavHostController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(12.dp))
 
                 IconButton(onClick = { navController.navigate("settings") }) {
                     Icon(Icons.Filled.Settings, contentDescription = "settings")
@@ -113,7 +112,7 @@ fun Dashboard(navController: NavHostController) {
                 }
                 Spacer(modifier = Modifier.width(30.dp))
 
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate("Dashboard")}) {
                     Icon(Icons.Filled.Home, contentDescription = "Home Menu.")
                 }
                 Spacer(modifier = Modifier.width(40.dp))
@@ -128,8 +127,9 @@ fun Dashboard(navController: NavHostController) {
         }
     ) {
 Column {
-    DisplayImages(navController = rememberNavController())
-            DashPage(navController = rememberNavController())
+
+    //DisplayImages(navController = rememberNavController())
+    Content(navController = rememberNavController())
 
                 //DisplayImages(navController = rememberNavController())
                 //ModalBottomSheetExample(navController = rememberNavController())
@@ -138,100 +138,109 @@ Column {
     }
 }
 
-
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DashPage(navController: NavHostController) {
-    data class NavItem(val name: String, val route: String)
+fun Content(navController: NavHostController) {
+    //Image(painter = painterResource(id = R.drawable.milk),
+        //contentDescription = "background image")
+    Column{
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(5.dp), content = {
+            item {
+                OutlinedButton(onClick = { navController.navigate("fresh_fruits") }) {
+                    Text("Fruits")
+                }
+            }
 
-    val navItems = mutableListOf(
-        NavItem("Beverages", "beverages"),
-        NavItem("Fast Foods", "fast_food"),
-        NavItem("Soft Drinks", "soft_drink"),
-        NavItem("Fries", "fries"),
-        NavItem("Fresh Juice", "fresh_fruits"),
-        NavItem("Choma", "choma")
-    )
-
-
-    val listModifier = Modifier
-        .fillMaxSize()
-        .padding(10.dp)
-
-    LazyRow(
-        modifier = listModifier,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        content = {
-            items(navItems.size) { item ->
-                OutlinedButton(
-                    modifier = Modifier.width(120.dp),
-                    onClick = {navController.navigate(navItems[item].route) }) {
-                    Text(text = navItems[item].name, fontSize = 15.sp)
+            item {
+                OutlinedButton(modifier = Modifier.width(100.dp),onClick = { navController.navigate("beverages")}) {
+                    Text("Breakfast")
+                }
+            }
+            item {
+                OutlinedButton(modifier = Modifier.width(100.dp),onClick = { navController.navigate("fries")}) {
+                    Text("Lunch")
+                }
+            }
+            item {
+                OutlinedButton(modifier = Modifier.width(100.dp), onClick = { navController.navigate("choma")}) {
+                    Text("Supper/Dinner")
                 }
             }
         }
-    )
-    data class MyCards(val name: String)
-    data class MyColors(val color: Color)
-
-    val Cardsdisplay = mutableListOf(
-        MyCards("Number"),
-    )
-
-    val ColorCodes = mutableListOf<MyColors>(
-        MyColors(Red),
-        MyColors(White),
-        MyColors(Gray),
-        MyColors(Black),
-        MyColors(Black ),
-        MyColors(Red),
-        MyColors(Yellow),
-        MyColors(Blue),
-        MyColors(Green),
-
         )
-    LazyVerticalGrid(columns = GridCells.Adaptive(100.dp), horizontalArrangement = Arrangement.spacedBy(5.dp),verticalArrangement = Arrangement.spacedBy(5.dp), content = {
-        items(40){ index ->
-            Column {
-                Card(modifier = Modifier.size(100.dp), elevation = 6.dp,
-                    backgroundColor = Color.Blue,
-                    onClick = {}) {
-                    Text(text ="Number ${index}" )
+        Row{
+            Text("Combo of the Day:")
+            Divider(modifier = Modifier
+                .width(250.dp)
+                .offset(3.dp, 9.dp), startIndent = 10.dp, color = Color.DarkGray)
+        }
+
+        LazyRow(content = {
+            items(freshList.size){
+                index ->
+                    Card(modifier = Modifier
+                        .width(200.dp)
+                        .height(200.dp)) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Image(painter = painterResource(id = freshList[index].image),
+                                contentDescription = freshList[index].description ,
+                            modifier = Modifier.size(200.dp))
+                       Text(text = freshList[index].description,
+                       modifier = Modifier.offset(15.dp,2.dp))
+                        }
+                    
                 }
             }
+        })
+
+        Row{
+            Text(text = "Breakfast Dishes")
+            Divider(Modifier.width(200.dp).padding(start = 10.dp,end = 10.dp))
+
         }
-    })
+        LazyRow(content = {
+            items(breaklist.size){
+                    index ->
+                Card(modifier = Modifier
+                    .width(200.dp)
+                    .height(200.dp)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                        Image(painter = painterResource(id = breaklist[index].image),
+                            contentDescription = breaklist[index].description ,
+                            modifier = Modifier.size(200.dp))
+                        Text(text = breaklist[index].description,
+                            modifier = Modifier.offset(15.dp,2.dp))
+                    }
+
+                }
+            }
+        })
+
+        Row{
+            Text(text = "Lunch Special ")
+            Divider(Modifier.width(200.dp).padding(start = 10.dp,end = 10.dp))
+
+        }
+        LazyRow(content = {
+            items(lunchlist.size){
+                    index ->
+                Card(modifier = Modifier
+                    .width(200.dp)
+                    .height(200.dp)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                        Image(painter = painterResource(id = breaklist[index].image),
+                            contentDescription = lunchlist[index].description ,
+                            modifier = Modifier.size(200.dp))
+                        Text(text = lunchlist[index].description,
+                            modifier = Modifier.offset(15.dp,2.dp))
+                    }
+
+                }
+            }
+        })
 
     }
 
-
-
-@Composable
-fun SearchBar() {
-    val (showSearchBar, setShowSearchBar) = remember { mutableStateOf(false) }
-    val (searchText, setSearchText) = remember { mutableStateOf("") }
-
-    Column {
-        if (showSearchBar) {
-            TextField(
-                value = searchText,
-                onValueChange = { setSearchText(it) },
-                label = { Text("Search") },
-                modifier = Modifier.fillMaxWidth()
-            )
-        } else {
-            Text(
-                text = "Search",
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = { setShowSearchBar(true) })
-            )
-        }
-    }
 }
-
 @Preview
 @Composable
 fun PreviewDashboard() {
@@ -258,7 +267,7 @@ fun DisplayImages(navController: NavHostController) {
         Color.Cyan,
         Color.Cyan,
         Color.Unspecified,
-        Color.Green
+        Green
     )
 
     val pagerState = rememberPagerState(images.size)
@@ -287,7 +296,8 @@ fun DisplayImages(navController: NavHostController) {
                 contentScale = ContentScale.FillBounds,
                 alignment = Alignment.Center,
                 contentDescription = null,
-                modifier = Modifier.size(width = 400.dp, height = 180.dp)
+                modifier = Modifier
+                    .size(width = 300.dp, height = 180.dp)
                     .background(randomItem)
             )
         }

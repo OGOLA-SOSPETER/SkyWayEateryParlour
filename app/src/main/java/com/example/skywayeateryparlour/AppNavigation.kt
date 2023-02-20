@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.SosDeveloper.animalapp.*
 import com.example.skywayeatery.RegistrationScreen
 import com.example.skywayeatery.Tools.Slider
 import com.example.skywayeateryparlour.Drinks.SoftDrinks
@@ -28,7 +27,6 @@ fun AppNavigation() {
         composable("settings") { SettingsPage(navController) }
         composable("About") { AboutApp(navController) }
         composable("Registration") { RegistrationScreen(navController) }
-        composable("burger"){ Burger(navController ) }
         composable("payment"){PaymentPage(navController)}
         composable("slider"){ Slider(navController )}
         composable("fresh_fruits"){ FreshFruits(navController)}

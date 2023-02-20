@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.skywayeatery.R
+import com.example.skywayeateryparlour.R
 
 @SuppressLint("ResourceType")
 @Composable
@@ -47,8 +47,9 @@ fun SettingsPage(navController: NavHostController) {
             },
         )
 
-        Card(Modifier.padding(10.dp), elevation = 6.dp) {
             Column(Modifier.fillMaxSize()) {
+                Spacer(modifier = Modifier.height(20.dp))
+
                 SettingsCard("General", painterResource(id = R.drawable.settings),
 
                         Modifier.clickable { }) // General
@@ -74,28 +75,28 @@ fun SettingsPage(navController: NavHostController) {
                 SettingsCard("About Developer", painterResource(id = R.drawable.people), Modifier.clickable { }) // Privacy Center
 
             }
-        }
+
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsCard(title: String, image: Painter, onClick: Modifier) {
-    Card(
-        onClick = {onClick},
-        elevation = 4.dp,
-        modifier = Modifier.padding( 10.dp)
-    ) {
+
         Row(
             verticalAlignment = Alignment.Top,
-            modifier = Modifier.height(50.dp).width(200.dp)
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth()
+                .padding(top = 10.dp)
         ) {
             Image(image, contentDescription = title, modifier =Modifier.size(36.dp) )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(title, style = MaterialTheme.typography.subtitle1)
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(title, style = MaterialTheme.typography.h6, modifier = Modifier.offset(1.dp,3.dp))
         }
+    Divider(Modifier.width(250.dp), startIndent = 5.dp)
     }
-}
+
 @Preview
 @Composable
 fun SettingsPreview() {

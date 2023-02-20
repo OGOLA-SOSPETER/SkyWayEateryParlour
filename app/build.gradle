@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.skywayeatery'
+    namespace 'com.example.skywayeateryparlour'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.skywayeatery"
+        applicationId "com.example.skywayeateryparlour"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -49,6 +49,7 @@ android {
 dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.3'
     implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:+'
 
 
     //navigation

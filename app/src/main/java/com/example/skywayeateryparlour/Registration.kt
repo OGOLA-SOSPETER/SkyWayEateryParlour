@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.skywayeateryparlour.R
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -131,7 +132,7 @@ fun RegistrationScreen(navController: NavHostController) {
             Text(text = "Required", color = Color.Red)
         }
         Spacer(modifier = Modifier.size(16.dp))
-        Row() {
+        Row {
             OutlinedTextField(
                 value = countryCode.value,
                 onValueChange = {

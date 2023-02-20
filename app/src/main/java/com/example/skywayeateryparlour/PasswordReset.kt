@@ -1,6 +1,5 @@
-package com.SosDeveloper.animalapp
+package com.example.skywayeateryparlour
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -23,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.skywayeatery.R
 
 @Composable
 fun PasswordReset(navController: NavHostController) {
@@ -42,9 +40,8 @@ fun PasswordReset(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Card(elevation = 5.dp, backgroundColor = Color.LightGray,
-            border = BorderStroke(width = 1.dp, color = Color.Gray),
-        modifier = Modifier.fillMaxWidth().padding(30.dp)){
+        Card(elevation = 5.dp,
+        modifier = Modifier.fillMaxWidth().padding(10.dp)){
             Column {
             Image(
                 painter = painterResource(id = R.drawable.reset),

@@ -5,10 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -24,8 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.skywayeatery.R
-import kotlinx.coroutines.coroutineScope
+import com.example.skywayeateryparlour.R
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -124,7 +124,7 @@ fun FruitsPage(navController: NavHostController) {
 @Composable
 fun FruitsCard(fruit: Fruit) {
     Card(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(14.dp), elevation = 2.dp
     ) {
         Row {
             Column {
@@ -134,7 +134,8 @@ fun FruitsCard(fruit: Fruit) {
                     contentDescription = fruit.name,
                     modifier = Modifier
                         .padding(16.dp)
-                        .size(120.dp),
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(5.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -168,7 +169,7 @@ fun AddToCartButton(fruit: Fruit) {
     Button(
         onClick = { cartItems.value += 1 },
         modifier = Modifier.padding(top = 8.dp).width(140.dp),
-        colors = ButtonDefaults.buttonColors(Color.Blue),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(4.dp)
         ) {
         Text(text = "Add to cart")
@@ -185,9 +186,11 @@ fun AddToCartButton(fruit: Fruit) {
             )
             Button(
                 onClick = { cartItems.value -= 1 },
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(height = 24.dp,width = 40.dp),
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                shape = RoundedCornerShape(4.dp)
             ) {
-                Text(text = "-")
+                Text(text = "Remove")
             }
 
         }
