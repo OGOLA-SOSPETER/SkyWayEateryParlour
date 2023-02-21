@@ -19,13 +19,20 @@ val freshList = listOf(
     Fresh("PineApple",178.90F, R.drawable.pineapple)
 )
 
-
-
 data class Lunch(val description: String, val price: Float, val image: Int)
-val lunchlist = listOf(
+val lunchList = listOf(
     Lunch("Fried Meat",470.50F, R.drawable.friedmeat),
     Lunch("Roasted Meat",350.50F, R.drawable.meat),
     Lunch("French Dish",550.00F, R.drawable.frenchdish),
     Lunch("Mukimo",150.00F, R.drawable.mukimo),
     Lunch("Matoke",250.50F, R.drawable.matoke)
+)
+
+data class DinnerDish(val description: String, val price: Float, val image: Int)
+val dinnerList = listOf(
+    DinnerDish("Fried Meat",470.50F, R.drawable.friedmeat),
+    DinnerDish("Roasted Meat",350.50F, R.drawable.meat),
+    DinnerDish("French Dish",550.00F, R.drawable.frenchdish),
+    DinnerDish("Mukimo",150.00F, R.drawable.mukimo),
+    DinnerDish("Matoke",250.50F, R.drawable.matoke)
 )

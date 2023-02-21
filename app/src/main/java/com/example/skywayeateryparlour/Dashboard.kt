@@ -3,14 +3,18 @@ package com.example.skywayeateryparlour
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.vector.DefaultTintColor
@@ -28,9 +32,10 @@ import com.example.skywayeateryparlour.Foods.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dinnerList
 import freshList
 import kotlinx.coroutines.delay
-import lunchlist
+import lunchList
 import kotlin.*
 
 
@@ -142,7 +147,7 @@ Column {
 fun Content(navController: NavHostController) {
     //Image(painter = painterResource(id = R.drawable.milk),
         //contentDescription = "background image")
-    Column{
+    Column(Modifier.verticalScroll(state = ScrollState(0),enabled = true, flingBehavior = ScrollableDefaults.flingBehavior())){
         LazyRow(horizontalArrangement = Arrangement.spacedBy(5.dp), content = {
             item {
                 OutlinedButton(onClick = { navController.navigate("fresh_fruits") }) {
@@ -162,7 +167,7 @@ fun Content(navController: NavHostController) {
             }
             item {
                 OutlinedButton(modifier = Modifier.width(100.dp), onClick = { navController.navigate("choma")}) {
-                    Text("Supper/Dinner")
+                    Text("Dinner")
                 }
             }
         }
@@ -171,33 +176,38 @@ fun Content(navController: NavHostController) {
             Text("Combo of the Day:")
             Divider(modifier = Modifier
                 .width(250.dp)
-                .offset(3.dp, 9.dp), startIndent = 10.dp, color = Color.DarkGray)
+                .offset(3.dp, 10.dp), startIndent = 10.dp, color = Color.DarkGray)
         }
 
-        LazyRow(content = {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(3.dp),content = {
             items(freshList.size){
                 index ->
                     Card(modifier = Modifier
                         .width(200.dp)
-                        .height(200.dp)) {
+                        .height(230.dp)) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally){
                             Image(painter = painterResource(id = freshList[index].image),
                                 contentDescription = freshList[index].description ,
                             modifier = Modifier.size(200.dp))
                        Text(text = freshList[index].description,
-                       modifier = Modifier.offset(15.dp,2.dp))
+                       modifier = Modifier.offset(13.dp,2.dp))
                         }
-                    
-                }
+                    }
+
             }
         })
+        Spacer(modifier = Modifier.height(5.dp))
+
 
         Row{
-            Text(text = "Breakfast Dishes")
-            Divider(Modifier.width(200.dp).padding(start = 10.dp,end = 10.dp))
+            Text(text = "Breakfast Dishes",
+                style = MaterialTheme.typography.h5, modifier = Modifier.padding(top = 10.dp,bottom = 10.dp))
+            Divider(modifier = Modifier
+                .width(250.dp)
+                .offset(3.dp, 25.dp), startIndent = 10.dp, color = Color.DarkGray)
 
         }
-        LazyRow(content = {
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(3.dp), content = {
             items(breaklist.size){
                     index ->
                 Card(modifier = Modifier
@@ -206,37 +216,79 @@ fun Content(navController: NavHostController) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally){
                         Image(painter = painterResource(id = breaklist[index].image),
                             contentDescription = breaklist[index].description ,
-                            modifier = Modifier.size(200.dp))
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(RoundedCornerShape(6.dp)), contentScale = ContentScale.Crop)
                         Text(text = breaklist[index].description,
                             modifier = Modifier.offset(15.dp,2.dp))
                     }
 
                 }
+                Text(text = breaklist[index].description,
+                    modifier = Modifier.offset(13.dp,2.dp))
+            }
+        })
+        Spacer(modifier = Modifier.height(5.dp))
+
+        Row{
+            Text(text = "Lunch Special ",
+                style = MaterialTheme.typography.h5, modifier = Modifier.padding(top = 10.dp,bottom = 10.dp))
+            Divider(modifier = Modifier
+                .width(250.dp)
+                .offset(3.dp, 25.dp), startIndent = 10.dp, color = Color.DarkGray)
+
+        }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(3.dp),content = {
+            items(lunchList.size){
+                    index ->
+                Card(modifier = Modifier
+                    .width(200.dp)
+                    .height(200.dp)) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                        Image(painter = painterResource(id = lunchList[index].image),
+                            contentDescription = lunchList[index].description ,
+                            modifier = Modifier.size(200.dp).clip(RoundedCornerShape(4.dp)),
+                        contentScale = ContentScale.Crop)
+                        Text(text = lunchList[index].description,
+                            modifier = Modifier.offset(15.dp,2.dp))
+                    }
+
+                }
+                Text(text = lunchList[index].description,
+                    modifier = Modifier.offset(13.dp,2.dp))
             }
         })
 
         Row{
-            Text(text = "Lunch Special ")
-            Divider(Modifier.width(200.dp).padding(start = 10.dp,end = 10.dp))
+            Text(text = "..Dinner Specials..",
+                style = MaterialTheme.typography.h5, modifier = Modifier.padding(top = 10.dp,bottom = 10.dp))
+            Divider(modifier = Modifier
+                .width(250.dp)
+                .offset(3.dp, 25.dp), startIndent = 10.dp, color = Color.DarkGray)
 
         }
-        LazyRow(content = {
-            items(lunchlist.size){
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(3.dp), content = {
+            items(breaklist.size){
                     index ->
                 Card(modifier = Modifier
                     .width(200.dp)
                     .height(200.dp)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally){
                         Image(painter = painterResource(id = breaklist[index].image),
-                            contentDescription = lunchlist[index].description ,
-                            modifier = Modifier.size(200.dp))
-                        Text(text = lunchlist[index].description,
+                            contentDescription = breaklist[index].description ,
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(RoundedCornerShape(6.dp)), contentScale = ContentScale.Crop)
+                        Text(text = breaklist[index].description,
                             modifier = Modifier.offset(15.dp,2.dp))
                     }
 
                 }
+                Text(text = dinnerList[index].description,
+                    modifier = Modifier.offset(13.dp,2.dp))
             }
         })
+        Text(text = "Welcome for Tasty Delicacies..")
 
     }
 

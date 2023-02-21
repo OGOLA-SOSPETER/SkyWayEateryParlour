@@ -3,9 +3,12 @@ package com.example.skywayeateryparlour.Foods
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -43,9 +46,9 @@ fun Choma(navController: NavHostController){
         }
 
     ) {
-        Column{
-            Image(painter = painterResource(id = R.drawable.milk),
-                contentDescription = "background image", modifier = Modifier.fillMaxSize())
+        Column(Modifier.verticalScroll(state = ScrollState(0),enabled = true, flingBehavior = ScrollableDefaults.flingBehavior())){
+            /*Image(painter = painterResource(id = R.drawable.milk),
+                contentDescription = "background image", modifier = Modifier.fillMaxSize())*/
 
             Column{
                 Text("We do very nice and delicious chomas.\n" +
